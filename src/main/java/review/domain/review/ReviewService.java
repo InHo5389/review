@@ -2,6 +2,7 @@ package review.domain.review;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import review.domain.common.exception.CustomGlobalException;
 import review.domain.common.exception.ErrorType;
 import review.domain.review.dto.ReviewDto;
@@ -20,9 +21,10 @@ public class ReviewService {
         }
     }
 
-    public void saveReview(ReviewDto.Create dto, String s3Url){
+    public void saveReview(ReviewDto.Create dto,Long productId, String s3Url){
         Review review = Review.builder()
                 .userId(dto.getUserId())
+                .productId(productId)
                 .score(dto.getScore())
                 .content(dto.getContent())
                 .imageUrl(s3Url)

@@ -16,4 +16,10 @@ public class Product {
 
     private Long reviewCount;
     private double score;
+
+    public void updateWithNewReview(int newScore){
+        double totalScore = this.score * reviewCount;
+        this.reviewCount++;
+        this.score = Math.floor((totalScore + newScore) / this.reviewCount * 10) / 10;
+    }
 }

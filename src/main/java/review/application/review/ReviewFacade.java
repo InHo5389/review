@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import review.application.review.dto.ReviewCommand;
 import review.domain.dummy.DummyS3Service;
+import review.domain.product.Product;
 import review.domain.product.ProductService;
 import review.domain.review.ReviewService;
 
@@ -19,9 +20,10 @@ public class ReviewFacade {
 
     @Transactional
     public void createReview(Long productId, ReviewCommand.Create command, MultipartFile image){
-        productService.getProduct(productId);
+        Product product = productService.getProduct(productId);
         reviewService.validateHasNotReviewedBy(command.getUserId());
         String s3Url = s3Service.uploadImage(image);
-        reviewService.saveReview(command.toDto(),s3Url);
+        reviewService.saveReview(command.toDto(),productId,s3Url);
+        product.updateWithNewReview(command.getScore());
     }
 }
