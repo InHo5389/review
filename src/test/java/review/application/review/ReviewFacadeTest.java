@@ -34,8 +34,9 @@ class ReviewFacadeTest {
     }
 
     @Test
-    @DisplayName("")
-    void test() throws InterruptedException {
+    @DisplayName("100명의 유저가 동시에 1점의 리뷰를 달면 리뷰 카운트가 100이 되어야 하고" +
+            "평균 평점은 1.0이 되어야 한다.")
+    void createReviewConcurrencyTest() throws InterruptedException {
         long startTime = System.currentTimeMillis();
         Long productId = 1L;
 
