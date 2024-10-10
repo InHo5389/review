@@ -20,9 +20,9 @@ public class ReviewFacade {
 
     @Transactional
     public void createReview(Long productId, ReviewCommand.Create command, MultipartFile image){
-        Product product = productService.getProduct(productId);
         reviewService.validateHasNotReviewedBy(command.getUserId());
         String s3Url = s3Service.uploadImage(image);
+        Product product = productService.getProductWithLock(productId);
         reviewService.saveReview(command.toDto(),productId,s3Url);
         product.updateWithNewReview(command.getScore());
     }

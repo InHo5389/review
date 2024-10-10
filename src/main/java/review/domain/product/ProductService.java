@@ -15,4 +15,9 @@ public class ProductService {
         return productRepository.findById(productId)
                 .orElseThrow(() -> new CustomGlobalException(ErrorType.NOT_FOUND_PRODUCT));
     }
+
+    public Product getProductWithLock(Long productId) {
+        return productRepository.findByIdWithLock(productId)
+                .orElseThrow(() -> new CustomGlobalException(ErrorType.NOT_FOUND_PRODUCT));
+    }
 }
