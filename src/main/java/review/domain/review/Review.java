@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Builder
+@Table(name = "review")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Review {

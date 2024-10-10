@@ -1,14 +1,15 @@
 package review.application.review;
 
-import org.assertj.core.api.Assertions;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import review.api.review.dto.ReviewRequest;
+import org.springframework.transaction.annotation.Transactional;
 import review.application.review.dto.ReviewCommand;
+import review.common.util.DatabaseCleanup;
 import review.domain.product.Product;
 import review.domain.product.ProductRepository;
 import review.domain.review.ReviewService;
@@ -18,7 +19,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -33,12 +34,19 @@ class ReviewFacadeTest {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private EntityManager entityManager;
+
+    @Autowired
+    private DatabaseCleanup databaseCleanup;
+
     private static final int NUMBER_OF_THREADS = 100;
 
 
     @BeforeEach
     void setup() {
-        productRepository.save(new Product(1L, 0L, 0));
+        databaseCleanup.cleanup();
+        productRepository.save(new Product(1L,0L,0));
     }
 
     @Test
