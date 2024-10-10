@@ -1,4 +1,4 @@
-package review.domain.dummy;
+package review.domain.common.dummy;
 
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;

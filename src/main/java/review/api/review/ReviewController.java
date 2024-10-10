@@ -1,12 +1,11 @@
 package review.api.review;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import review.api.review.dto.ReviewRequest;
+import review.domain.review.dto.ReviewResponse;
 import review.application.review.ReviewFacade;
 
 @RestController
@@ -21,6 +20,14 @@ public class ReviewController {
             @RequestPart("review") ReviewRequest.Create request,
             @RequestPart(value = "image", required = false) MultipartFile image) {
 
-        reviewFacade.createReview(productId,request.toCommand(),image);
+        reviewFacade.createReview(productId, request.toCommand(), image);
+    }
+
+    @GetMapping("/products/{productId}/reviews")
+    public ResponseEntity<ReviewResponse.GetReviews> getReviews(
+            @PathVariable Long productId,
+            @RequestParam(required = false) Long cursor,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(reviewFacade.getReviewsByCursor(productId,cursor,size));
     }
 }
