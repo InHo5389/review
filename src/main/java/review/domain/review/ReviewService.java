@@ -18,8 +18,8 @@ public class ReviewService {
 
     private final ReviewRepository reviewRepository;
 
-    public void validateHasNotReviewedBy(Long userId) {
-        if (reviewRepository.existsByUserId(userId)) {
+    public void validateHasNotReviewedBy(Long userId,Long productId) {
+        if (reviewRepository.existsByUserIdAndProductId(userId,productId)) {
             throw new CustomGlobalException(ErrorType.ALREADY_EXIST_REVIEW);
         }
     }

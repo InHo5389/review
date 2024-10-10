@@ -32,12 +32,13 @@ class ReviewServiceTest {
     void validateHasNotReviewedBy() {
         //given
         Long userId = 1L;
+        Long productId = 1L;
 
-        given(reviewRepository.existsByUserId(userId))
+        given(reviewRepository.existsByUserIdAndProductId(userId,productId))
                 .willReturn(false);
         //when
         //then
-        reviewService.validateHasNotReviewedBy(userId);
+        reviewService.validateHasNotReviewedBy(userId,productId);
     }
 
     @Test
@@ -45,12 +46,13 @@ class ReviewServiceTest {
     void validateHasNotReviewedBy_fail() {
         //given
         Long userId = 1L;
+        Long productId = 1L;
 
-        given(reviewRepository.existsByUserId(userId))
+        given(reviewRepository.existsByUserIdAndProductId(userId,productId))
                 .willReturn(true);
         //when
         //then
-        assertThatThrownBy(() -> reviewService.validateHasNotReviewedBy(userId))
+        assertThatThrownBy(() -> reviewService.validateHasNotReviewedBy(userId,productId))
                 .hasMessage("이미 리뷰를 작성하셨습니다.")
                 .isInstanceOf(CustomGlobalException.class);
     }

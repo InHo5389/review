@@ -15,8 +15,8 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     private final ReviewJpaRepository reviewJpaRepository;
 
     @Override
-    public boolean existsByUserId(Long userId) {
-        return reviewJpaRepository.existsByUserId(userId);
+    public boolean existsByUserIdAndProductId(Long userId, Long productId) {
+        return reviewJpaRepository.existsByUserIdAndProductId(userId,productId);
     }
 
     @Override

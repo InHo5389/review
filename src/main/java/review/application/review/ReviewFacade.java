@@ -26,7 +26,7 @@ public class ReviewFacade {
 
     @Transactional
     public void createReview(Long productId, ReviewCommand.Create command, MultipartFile image) {
-        reviewService.validateHasNotReviewedBy(command.getUserId());
+        reviewService.validateHasNotReviewedBy(command.getUserId(),productId);
         String s3Url = s3Service.uploadImage(image);
         Product product = productService.getProductWithLock(productId);
         reviewService.saveReview(command.toDto(), productId, s3Url);
